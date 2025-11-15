@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Galería QR</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:0;background:#f7f7f7;color:#111}
+    header{padding:20px;text-align:center;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+    h1{margin:0;font-size:1.4rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;padding:16px;max-width:1100px;margin:16px auto}
+    .thumb{background:#fff;border-radius:8px;overflow:hidden;display:block;box-shadow:0 1px 3px rgba(0,0,0,.06);text-align:center}
+    .thumb img{width:100%;height:120px;object-fit:cover;display:block}
+    /* modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);z-index:999}
+    .modal.open{display:flex}
+    .modal-content{max-width:95%;max-height:90%;border-radius:8px;overflow:hidden;background:#111;padding:8px}
+    .modal-content img{display:block;max-width:100%;max-height:80vh}
+    .close-btn{position:absolute;right:18px;top:14px;background:#fff;border-radius:999px;padding:6px 10px;cursor:pointer;font-weight:700}
+    footer{padding:12px;text-align:center;color:#666;font-size:.9rem}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Galería</h1>
+    <p>Escaneá el QR para ver estas imágenes</p>
+  </header>
+
+  <main>
+    <section class="grid" id="gallery">
+      <!-- Agrega tus miniaturas aquí -->
+      <a class="thumb" href="images/Comercial.jpg"><img alt="Imagen 1" src="images/imagen1.jpg"></a>
+      <!--<a class="thumb" href="images/imagen2.jpg"><img alt="Imagen 2" src="images/imagen2.jpg"></a>
+      <a class="thumb" href="images/imagen3.jpg"><img alt="Imagen 3" src="images/imagen3.jpg"></a> -->
+      <!-- Añade más <a class="thumb" href="images/tuimagen.jpg"><img src="images/tuimagen.jpg"></a> -->
+    </section>
+  </main>
+
+  <div id="modal" class="modal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="close-btn" onclick="closeModal()">X</button>
+      <img id="modalImage" src="" alt="">
+    </div>
+  </div>
+
+  <footer>
+    <small>Creado con GitHub Pages • Mantener archivos en la carpeta images/</small>
+  </footer>
+
+  <script>
+    const gallery = document.getElementById('gallery');
+    const modal = document.getElementById('modal');
+    const modalImage = document.getElementById('modalImage');
+
+    gallery.addEventListener('click', (e) => {
+      const a = e.target.closest('a.thumb');
+      if (!a) return;
+      e.preventDefault();
+      const src = a.getAttribute('href');
+      modalImage.src = src;
+      modal.classList.add('open');
+    });
+
+    function closeModal(e){
+      if (e && e.target !== modal) return;
+      modal.classList.remove('open');
+      modalImage.src = '';
+    }
+
+    // cerrar con ESC
+    document.addEventListener('keydown', (ev) => {
+      if(ev.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>
